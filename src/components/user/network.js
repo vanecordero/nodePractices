@@ -5,20 +5,28 @@ const controller = require("./controller");
 const router = express.Router();
 
 router.get("/", function (req, res) {
-  const filterMessage = req.query.user || null;
   controller
-    .getMessage(filterMessage)
-    .then((messageList) => {
-      response.success(req, res, messageList, 200);
+    .getUser()
+    .then((userList) => {
+      response.success(req, res, userList, 200);
     })
     .catch((e) => {
       response.error(req, res, "Unexpected Error", 500, e);
     });
+  /* const filterUser = req.query.user || null;
+  controller
+    .getUser(filterUser)
+    .then((userList) => {
+      response.success(req, res, userList, 200);
+    })
+    .catch((e) => {
+      response.error(req, res, "Unexpected Error", 500, e);
+    });*/
 });
 
 router.post("/", function (req, res) {
   controller
-    .addMessage(req.body.chat, req.body.user, req.body.message)
+    .addUser(req.body.name)
     .then(() => {
       response.success(req, res, "Creado correctamente", 201);
     })
@@ -26,7 +34,7 @@ router.post("/", function (req, res) {
       response.error(req, res, "Informacion invalida ", 400, e);
     });
 });
-
+/*
 router.patch("/:id", function (req, res) {
   console.log(req.params.id);
   controller
@@ -50,5 +58,5 @@ router.delete("/:id", function (req, res) {
       response.error(req, res, "Error interno", 500, e);
     });
 });
-
+*/
 module.exports = router;
